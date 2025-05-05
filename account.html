@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Account - Picxify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-camera-retro"></i>
+            <span>Picxify</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="how-it-works.html"><i class="fas fa-question-circle"></i> How It Works</a></li>
+                <li><a href="account.html" class="active"><i class="fas fa-user"></i> Account</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="account-header">
+            <h1><i class="fas fa-user-shield"></i> Account Dashboard</h1>
+            <div class="account-status">
+                <span class="status-badge premium"><i class="fas fa-crown"></i> Premium User</span>
+                <span class="storage-usage">Storage: 1.2GB/5GB used</span>
+            </div>
+        </div>
+        
+        <div class="account-container">
+            <div class="profile-section">
+                <div class="profile-card">
+                    <div class="avatar">
+                        <i class="fas fa-user-circle"></i>
+                        <button class="edit-btn"><i class="fas fa-pencil-alt"></i></button>
+                    </div>
+                    <div class="profile-info">
+                        <h2>John Doe</h2>
+                        <p><i class="fas fa-envelope"></i> john.doe@example.com</p>
+                        <p><i class="fas fa-calendar-alt"></i> Member since: June 2023</p>
+                        <div class="security-status">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>2FA Enabled</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <h3><i class="fas fa-chart-line"></i> Usage Statistics</h3>
+                    <div class="stat-item">
+                        <div class="stat-value">142</div>
+                        <div class="stat-label">Total Conversions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">28</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">94%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="account-actions">
+                <div class="action-card">
+                    <div class="action-header">
+                        <i class="fas fa-history"></i>
+                        <h3>Conversion History</h3>
+                    </div>
+                    <div class="recent-conversions">
+                        <div class="conversion-item">
+                            <div class="file-info">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>report.pdf</span>
+                            </div>
+                            <div class="conversion-meta">
+                                <span>Today, 10:30 AM</span>
+                                <button class="download-btn"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                        <div class="conversion-item">
+                            <div class="file-info">
+                                <i class="fas fa-file-powerpoint"></i>
+                                <span>presentation.pptx</span>
+                            </div>
+                            <div class="conversion-meta">
+                                <span>Yesterday, 3:15 PM</span>
+                                <button class="download-btn"><i class="fas fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn view-all-btn">View All History</button>
+                </div>
+                
+                <div class="action-card security-card">
+                    <div class="action-header">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Security Settings</h3>
+                    </div>
+                    <div class="security-options">
+                        <div class="security-item">
+                            <div>
+                                <h4>Two-Factor Authentication</h4>
+                                <p>Add an extra layer of security</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="security-item">
+                            <div>
+                                <h4>Password</h4>
+                                <p>Last changed 3 months ago</p>
+                            </div>
+                            <button class="btn-outline">Change</button>
+                        </div>
+                        <div class="security-item">
+                            <div>
+                                <h4>Login Activity</h4>
+                                <p>View recent account access</p>
+                            </div>
+                            <button class="btn-outline">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2023 Picxify. All rights reserved.</p>
+                <p class="footer-credits">Secure document conversion platform</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

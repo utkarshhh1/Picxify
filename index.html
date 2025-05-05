@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picxify | Document to Image Converter</title>
+    <title>Picxify | File to Image Converter</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,53 +15,57 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="how-it-works.html"><i class="fas fa-question-circle"></i> How It Works</a></li>
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="account.html"><i class="fas fa-user"></i> Account</a></li>
             </ul>
         </nav>
     </header>
 
     <main class="container">
-        <h1>Convert Documents to Image Sequences</h1>
-        <p class="subtitle">Upload your files and get image sequences instantly</p>
+        <h1>File to Image Sequence Converter</h1>
+        <p class="subtitle">Convert between files and image sequences with metadata</p>
         
-        <div class="converter-box">
-            <div class="drop-zone" id="dropZone">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Drag & Drop Files Here</h3>
-                <p>Supported: PDF, PPT, DOC, DOCX</p>
-                <button class="btn" id="uploadBtn">
-                    <i class="fas fa-folder-open"></i> Select Files
+        <div class="converter-sections">
+            <!-- File to Images Section -->
+            <div class="converter-box">
+                <h2><i class="fas fa-file-export"></i> Convert File to Images</h2>
+                <div class="drop-zone" id="fileToImagesDropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Any File Here</h3>
+                    <p>Supported: PDF, ZIP, APP, EXE, etc.</p>
+                    <button class="btn" id="fileToImagesBtn">
+                        <i class="fas fa-folder-open"></i> Select File
+                    </button>
+                    <input type="file" id="fileToImagesInput" hidden>
+                </div>
+
+                <button class="btn convert-btn" id="convertToImagesBtn" disabled>
+                    <i class="fas fa-magic"></i> Generate Image Sequence (ZIP)
                 </button>
-                <input type="file" id="fileInput" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
             </div>
 
-            <div class="conversion-settings">
-                <div class="settings-group">
-                    <label><i class="fas fa-file-image"></i> Output Format:</label>
-                    <select id="imageFormat">
-                        <option value="png">PNG</option>
-                        <option value="jpg">JPG</option>
-                    </select>
+            <!-- Images to File Section -->
+            <div class="converter-box">
+                <h2><i class="fas fa-file-import"></i> Reconstruct File from Images</h2>
+                <div class="drop-zone" id="imagesToFileDropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Image Sequence (or ZIP)</h3>
+                    <p>Must be original sequence with metadata</p>
+                    <button class="btn" id="imagesToFileBtn">
+                        <i class="fas fa-folder-open"></i> Select Images/ZIP
+                    </button>
+                    <input type="file" id="imagesToFileInput" multiple accept=".png,.jpg,.jpeg,.zip" hidden>
                 </div>
-                <div class="settings-group">
-                    <label><i class="fas fa-expand"></i> Resolution:</label>
-                    <select id="resolution">
-                        <option value="720">HD (720p)</option>
-                        <option value="1080" selected>Full HD (1080p)</option>
-                    </select>
+
+                <div class="preview-area" id="reconstructionPreview">
+                    <h3><i class="fas fa-images"></i> Selected Images</h3>
+                    <div class="preview-grid" id="reconstructionPreviewGrid"></div>
                 </div>
-            </div>
 
-            <div class="preview-area" id="previewArea">
-                <h3><i class="fas fa-images"></i> Preview</h3>
-                <div class="preview-grid" id="previewGrid"></div>
+                <button class="btn convert-btn" id="reconstructFileBtn" disabled>
+                    <i class="fas fa-file-download"></i> Reconstruct Original File
+                </button>
             </div>
-
-            <button class="btn convert-btn" id="convertBtn" disabled>
-                <i class="fas fa-magic"></i> Generate Images
-            </button>
         </div>
     </main>
 
@@ -76,6 +80,7 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

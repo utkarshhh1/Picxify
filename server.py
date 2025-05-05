@@ -4,13 +4,19 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import zipfile
 import io
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB limit
 
 IMAGE_SIZE = 1024  # 1024x1024 image
 BYTES_PER_IMAGE = IMAGE_SIZE * IMAGE_SIZE  # 1,048,576 bytes
+
+@app.route('/')
+def home():
+    return "Picxify File Conversion API is running. Use /convert or /reconstruct endpoints."
 
 def file_to_bits_with_metadata(file_data):
     file_size = len(file_data)
@@ -72,10 +78,6 @@ def convert_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    # Get additional parameters
-    image_format = request.form.get('imageFormat', 'png')
-    resolution = request.form.get('resolution', '1080')
-
     try:
         file_data = file.read()
         images = convert_to_images(file_data)
@@ -92,6 +94,75 @@ def convert_file():
             mimetype='application/zip',
             as_attachment=True,
             download_name=f'{os.path.splitext(file.filename)[0]}_images.zip'
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+def bits_to_file(bits):
+    # First 8 bytes (64 bits) contain the original file size
+    size_bits = bits[:64]
+    size_bytes = []
+    
+    for i in range(0, 64, 8):
+        byte_bits = size_bits[i:i+8]
+        byte_val = 0
+        for bit in byte_bits:
+            byte_val = (byte_val << 1) | bit
+        size_bytes.append(byte_val)
+    
+    file_size = int.from_bytes(bytes(size_bytes), byteorder='big')
+    
+    # The remaining bits are the actual file data
+    file_bits = bits[64:64 + file_size * 8]
+    file_bytes = []
+    
+    for i in range(0, len(file_bits), 8):
+        byte_bits = file_bits[i:i+8]
+        byte_val = 0
+        for bit in byte_bits:
+            byte_val = (byte_val << 1) | bit
+        file_bytes.append(byte_val)
+    
+    return bytes(file_bytes)
+
+def image_to_bits(image_data):
+    img = Image.open(io.BytesIO(image_data))
+    pixels = img.load()
+    bits = []
+    
+    for y in range(img.size[1]):
+        for x in range(img.size[0]):
+            byte_val = pixels[x, y]
+            bits.extend([(byte_val >> (7 - i)) & 1 for i in range(8)])
+    
+    return bits
+
+@app.route('/reconstruct', methods=['POST'])
+def reconstruct_file():
+    if 'images' not in request.files:
+        return jsonify({'error': 'No images uploaded'}), 400
+    
+    image_files = request.files.getlist('images')
+    if not image_files or image_files[0].filename == '':
+        return jsonify({'error': 'No selected images'}), 400
+
+    try:
+        # Sort images numerically (f1.png, f2.png, etc.)
+        image_files.sort(key=lambda x: int(''.join(filter(str.isdigit, x.filename)) or 0)
+        
+        all_bits = []
+        for image_file in image_files:
+            image_data = image_file.read()
+            bits = image_to_bits(image_data)
+            all_bits.extend(bits)
+        
+        file_data = bits_to_file(all_bits)
+        
+        return send_file(
+            io.BytesIO(file_data),
+            mimetype='application/octet-stream',
+            as_attachment=True,
+            download_name='reconstructed_file'
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
